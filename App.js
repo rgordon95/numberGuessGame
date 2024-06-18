@@ -1,9 +1,9 @@
-import { StatusBar } from "expo-status-bar";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { ImageBackground, SafeAreaView, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
 import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
 import GameOverScreen from "./screens/GameOverScreen";
 import GameScreen from "./screens/GameScreen";
 import StartGameScreen from "./screens/StartGameScreen";
@@ -20,7 +20,7 @@ export default function App() {
   const gameOverHandler = (numOfRounds) => {
     setGuessRounds(numOfRounds);
     setGameIsOver(true);
-  }
+  };
 
   const startNewGameHandler = () => {
     setUserNumber(null);
@@ -32,7 +32,6 @@ export default function App() {
     "OpenSans-Regular": require("./assets/fonts/OpenSans-Regular.ttf"),
     "OpenSans-Bold": require("./assets/fonts/OpenSans-Bold.ttf"),
   });
-
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded && appIsReady) {
@@ -53,7 +52,11 @@ export default function App() {
 
   if (userNumber && !gameIsOver) {
     screen = (
-      <GameScreen onGameOver={gameOverHandler} userChoice={userNumber} setGameIsOver={setGameIsOver} />
+      <GameScreen
+        onGameOver={gameOverHandler}
+        userChoice={userNumber}
+        setGameIsOver={setGameIsOver}
+      />
     );
   }
 
@@ -68,21 +71,24 @@ export default function App() {
   }
 
   return (
-    <LinearGradient
-      colors={[Colors.primary800, Colors.secondary500]}
-      style={styles.container}
-    >
-      <ImageBackground
-        imageStyle={{ opacity: 0.2 }}
-        resizeMode="cover"
-        source={require("./assets/images/background.png")}
+    <>
+      <StatusBar style="light" />
+      <LinearGradient
+        colors={[Colors.primary800, Colors.secondary500]}
         style={styles.container}
       >
-        <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
-          {screen}
-        </SafeAreaView>
-      </ImageBackground>
-    </LinearGradient>
+        <ImageBackground
+          imageStyle={{ opacity: 0.2 }}
+          resizeMode="cover"
+          source={require("./assets/images/background.png")}
+          style={styles.container}
+        >
+          <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
+            {screen}
+          </SafeAreaView>
+        </ImageBackground>
+      </LinearGradient>
+    </>
   );
 }
 
